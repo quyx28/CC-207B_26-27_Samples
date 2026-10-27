@@ -26,7 +26,22 @@ class MyOrgsScreen extends StatelessWidget {
     // TODO 12: Ask before leaving. Show an AlertDialog titled
     //   'Leave ${org.acronym}?' with two buttons: Cancel pops false and
     //   Leave pops true. Store what the dialog returns in confirmed.
-    bool? confirmed;
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Leave ${org.acronym}?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Leave'),
+          ),
+        ],
+      ),
+    );
     if (confirmed == true && context.mounted) {
       onLeave(org);
       ScaffoldMessenger.of(context)
